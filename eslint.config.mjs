@@ -18,7 +18,7 @@ export default [
       "no-unused-expressions":'error',
       "prefer-const":"error",
       "no-console":"warn",
-      "no-undef":"error",
+      // "no-undef":"error",
       "@typescript-eslint/no-unused-vars": "error",
     },
   },
