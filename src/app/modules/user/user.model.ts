@@ -29,7 +29,8 @@ const userSchema = new Schema<TUser>({
   },
 },
 {
-  timestamps:true
+  timestamps:true,
+  versionKey:false
 })
 
 

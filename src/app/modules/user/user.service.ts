@@ -13,7 +13,7 @@ const createStudentIntoDB = async (password:string,studentData: TStudent) => {
     // if password is not given then use default password from my .env
     userData.password=password||(config.default_Password as string)
     // Set manually generally id 
-    userData.id= '20301000'
+    userData.id= '203010002'
     // create a user 
     const newUser = await User.create(userData);
     // create a student 
@@ -24,7 +24,6 @@ const createStudentIntoDB = async (password:string,studentData: TStudent) => {
       const newStudent = await Student.create(studentData) 
       return newStudent
     }
-  
   return newUser;
 };
 export const UserService={
