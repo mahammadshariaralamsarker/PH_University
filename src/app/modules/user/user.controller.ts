@@ -1,3 +1,4 @@
+import { Request, Response } from "express";
 import { UserService } from "./user.service";
 
 
@@ -23,3 +24,6 @@ const createStudent = async (req: Request, res: Response) => {
     });
   }
 };
+export const UserControllers = {
+  createStudent
+}

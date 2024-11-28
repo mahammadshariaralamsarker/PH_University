@@ -85,6 +85,12 @@ const studentSchema = new Schema<TStudent, StudentModel>(
       required: [true, 'Password is required'],
       maxlength: [20, 'Password can not be more than 20 characters'],
     },
+    user:{
+      type:Schema.Types.ObjectId,
+      required: [true, 'User ID is required'],
+      unique:true,
+      ref:'User'
+    },
     name: {
       type: userNameSchema,
       required: [true, 'Name is required'],
@@ -108,7 +114,7 @@ const studentSchema = new Schema<TStudent, StudentModel>(
       type: String,
       required: [true, 'Emergency contact number is required'],
     },
-    bloogGroup: {
+    bloodGroup: {
       type: String,
       enum: {
         values: ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'],
@@ -132,14 +138,6 @@ const studentSchema = new Schema<TStudent, StudentModel>(
       required: [true, 'Local guardian information is required'],
     },
     profileImg: { type: String },
-    isActive: {
-      type: String,
-      enum: {
-        values: ['active', 'blocked'],
-        message: '{VALUE} is not a valid status',
-      },
-      default: 'active',
-    },
     isDeleted: {
       type: Boolean,
       default: false,
