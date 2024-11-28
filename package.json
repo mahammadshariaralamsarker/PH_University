@@ -4,6 +4,8 @@
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
     "express": "^4.21.1",
+    "http-status": "^2.0.0",
+    "http-status-message": "^1.2.4",
     "joi": "^17.13.3",
     "mongoose": "^8.8.3",
     "ts-node-dev": "^2.0.0",
