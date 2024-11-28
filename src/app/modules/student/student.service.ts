@@ -26,7 +26,6 @@ const deleteStudentFromDB = async (id: string) => {
 
 
 export const StudentServices = {
-  createStudentIntoDB,
   getAllStudentsFromDB,
   getSingleStudentFromDB,
   deleteStudentFromDB,
