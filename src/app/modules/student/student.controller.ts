@@ -20,9 +20,7 @@ const getAllStudents = async (req: Request, res: Response ,next:NextFunction) =>
 const getSingleStudent = async (req: Request, res: Response,next:NextFunction) => {
   try {
     const { studentId } = req.params;
-
     const result = await StudentServices.getSingleStudentFromDB(studentId);
-
     sendResponse(res, {
       success:true,
       statusCode:200,
