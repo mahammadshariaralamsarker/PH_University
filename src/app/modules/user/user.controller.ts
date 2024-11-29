@@ -14,7 +14,6 @@ const createStudent = async (req: Request, res: Response,next:NextFunction) => {
       message:'Student is created successfully',
       data:result
     })
-  
   } catch (err) {
     next(err)
   }
