@@ -1,4 +1,3 @@
-
 import { Schema, model } from 'mongoose';
 import {
   StudentModel,
@@ -77,12 +76,12 @@ const localGuardianSchema = new Schema<TLocalGuardian>({
 const studentSchema = new Schema<TStudent, StudentModel>(
   {
     id: { type: String, required: [true, 'ID is required'], unique: true },
-  
-    user:{
-      type:Schema.Types.ObjectId,
+
+    user: {
+      type: Schema.Types.ObjectId,
       required: [true, 'User ID is required'],
-      unique:true,
-      ref:'User'
+      unique: true,
+      ref: 'User',
     },
     name: {
       type: userNameSchema,
@@ -140,17 +139,14 @@ const studentSchema = new Schema<TStudent, StudentModel>(
     toJSON: {
       virtuals: true,
     },
-    versionKey:false
+    versionKey: false,
   },
-  
 );
 
 // virtual
 studentSchema.virtual('fullName').get(function () {
   return this.name.firstName + this.name.middleName + this.name.lastName;
 });
-
-
 
 // Query Middleware
 studentSchema.pre('find', function (next) {
@@ -163,7 +159,6 @@ studentSchema.pre('findOne', function (next) {
   next();
 });
 
-
 studentSchema.pre('aggregate', function (next) {
   this.pipeline().unshift({ $match: { isDeleted: { $ne: true } } });
   next();
@@ -174,7 +169,5 @@ studentSchema.statics.isUserExists = async function (id: string) {
   const existingUser = await Student.findOne({ id });
   return existingUser;
 };
-
-
 
 export const Student = model<TStudent, StudentModel>('Student', studentSchema);

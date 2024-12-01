@@ -1,10 +1,7 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import {  RequestHandler,} from 'express';
+import { RequestHandler } from 'express';
 import { StudentServices } from './student.service';
 import { sendResponse } from '../../utils/sendResponse';
 import { catchAsync } from '../../utils/CatchAsync';
-
-
 
 const getAllStudents = catchAsync(async (req, res) => {
   const result = await StudentServices.getAllStudentsFromDB();
@@ -36,7 +33,7 @@ const deleteStudent: RequestHandler = catchAsync(async (req, res) => {
     message: 'Student deleted successfully',
     data: result,
   });
-} )
+});
 
 export const StudentControllers = {
   getAllStudents,

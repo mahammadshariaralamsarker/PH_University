@@ -1,4 +1,4 @@
-import express  from 'express';
+import express from 'express';
 import { UserControllers } from './user.controller';
 import { CreateStudentValidationSchema } from '../student/student.validation';
 import { validateRequest } from '../../middleWare/validateRequest';
