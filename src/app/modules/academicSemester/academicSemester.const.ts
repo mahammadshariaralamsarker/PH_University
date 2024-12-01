@@ -16,3 +16,8 @@ export const Month: string[] = [
 ];
 export const AcademicSemesterName:TAcademicSemesterName[]=['Autum','Summer','Fall']
 export const AcademicSemesterCode:TAcademicSemesterCode[]=['01','02','03']
+export const academicSemesterCodeNameCodeMapper:TAcademicSemesterNameCodeMapper={
+  Autum:'01',
+  Summer:'02',
+  Fall:'03'
+}
