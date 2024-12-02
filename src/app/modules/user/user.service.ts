@@ -11,8 +11,6 @@ const createStudentIntoDB = async (password: string, payload: TStudent) => {
   const userData: Partial<TUser> = {};
   userData.password = password || (config.default_Password as string);
   userData.role = 'students';
-
-
   const admissionSemester = await AcademicSemester.findById(payload.admissionSemester)
   if(!admissionSemester){
     throw new Error ("Adimission semester not found");
