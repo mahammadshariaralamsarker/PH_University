@@ -14,7 +14,6 @@ router.post(
 router.get('/:id', AcademicSemesterController.getSingleAcademicSemesterFromDB);
 router.get('/', AcademicSemesterController.getAllAcademicSemester);
 
-
 router.patch(
   '/:id',
   validateRequest(

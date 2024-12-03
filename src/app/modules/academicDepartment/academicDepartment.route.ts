@@ -1,7 +1,6 @@
 import express from 'express';
 import { validateRequest } from '../../middleWare/validateRequest';
 import { AcademicDepartmentValidation } from './academicDepartment.validation';
-import { academicFacultyController } from '../academicFaculty/academicFaculty.controller';
 import { AcademicDepartmentController } from './academicDepartment.controller';
 const router = express.Router();
 router.post(
@@ -9,7 +8,7 @@ router.post(
   validateRequest(
     AcademicDepartmentValidation.academicDepartmentValidationSchema,
   ),
-  AcademicDepartmentController.createAcademicDepartmentIntoDB
+  AcademicDepartmentController.createAcademicDepartmentIntoDB,
 );
 
 router.patch(
@@ -24,6 +23,6 @@ router.get(
   '/:departmentID',
   AcademicDepartmentController.getSingleAcademicDepartmentIntoDB,
 );
-router.get('/',AcademicDepartmentController.getAllAcademicDepartmentIntoDB);
+router.get('/', AcademicDepartmentController.getAllAcademicDepartmentIntoDB);
 
 export const AcademicDepartmentRoute = router;

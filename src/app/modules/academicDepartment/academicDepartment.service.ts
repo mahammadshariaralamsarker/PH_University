@@ -1,7 +1,7 @@
 import { TacademicDepartment } from './academicDepartment.interface';
 import { AcademicDepartment } from './academicDepartment.model';
 
-const createAcademicDepartment = (payload:TacademicDepartment) => {
+const createAcademicDepartment = (payload: TacademicDepartment) => {
   const result = AcademicDepartment.create(payload);
   return result;
 };

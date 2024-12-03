@@ -21,11 +21,11 @@ const moduleRoutes = [
   },
   {
     path: '/academic-faculties',
-    route:AcademicFacultyRoute ,
+    route: AcademicFacultyRoute,
   },
   {
     path: '/academic-department',
-    route:AcademicDepartmentRoute ,
+    route: AcademicDepartmentRoute,
   },
 ];
 moduleRoutes.forEach((route) => router.use(route.path, route.route));

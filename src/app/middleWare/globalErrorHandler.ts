@@ -8,6 +8,7 @@ export const globalErrorHandler = (
   err: any,
   req: Request,
   res: Response,
+  // eslint-disable-next-line no-unused-vars
   next: NextFunction,
 ) => {
   const statusCode = 500;

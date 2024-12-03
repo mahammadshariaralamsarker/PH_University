@@ -17,14 +17,18 @@ export const findLastStudentID = async () => {
 };
 
 export const generateStudentId = async (payload: TAcademicSemester) => {
-  let currentID =  (0).toString(); //0000 by default
-  const lastStudentID = await findLastStudentID()
-  const lastStudentYear = lastStudentID?.substring(0,4)
-  const lastStudentSemesterCode = lastStudentID?.substring(4,6)
-  const currentSemesterCode = payload.code
-  const currentYear = payload.year
-  if(lastStudentID && lastStudentSemesterCode === currentSemesterCode && lastStudentYear ===currentYear){
-    currentID = lastStudentID.substring(6)
+  let currentID = (0).toString(); //0000 by default
+  const lastStudentID = await findLastStudentID();
+  const lastStudentYear = lastStudentID?.substring(0, 4);
+  const lastStudentSemesterCode = lastStudentID?.substring(4, 6);
+  const currentSemesterCode = payload.code;
+  const currentYear = payload.year;
+  if (
+    lastStudentID &&
+    lastStudentSemesterCode === currentSemesterCode &&
+    lastStudentYear === currentYear
+  ) {
+    currentID = lastStudentID.substring(6);
   }
   let incrementID = (parseInt(currentID) + 1).toString().padStart(4, '0');
   incrementID = `${payload.year}${payload.code}${incrementID}`;
