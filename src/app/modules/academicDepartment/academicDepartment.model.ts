@@ -8,7 +8,7 @@ const academicDepartmentSchema = new Schema<TacademicDepartment>(
     },
     academicFaculty: {
       type: Schema.Types.ObjectId,
-      // unique: true,
+      unique: true,
       ref: 'AcademicFaculty',
     },
   },
