@@ -24,6 +24,6 @@ router.get(
   '/:departmentID',
   AcademicDepartmentController.getSingleAcademicDepartmentIntoDB,
 );
-router.get('/', academicFacultyController.getAllAcademicFaculty);
+router.get('/',AcademicDepartmentController.getAllAcademicDepartmentIntoDB);
 
 export const AcademicDepartmentRoute = router;
