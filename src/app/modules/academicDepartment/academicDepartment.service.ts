@@ -1,9 +1,9 @@
 import { TacademicDepartment } from './academicDepartment.interface';
 import { AcademicDepartment } from './academicDepartment.model';
 
-const createAcademicDepartment = (payload: TacademicDepartment) => {
-  const result = AcademicDepartment.create(payload);
-  return result;
+const createAcademicDepartment =async (payload: TacademicDepartment) => {
+    const result =await AcademicDepartment.create(payload);
+    return result;
 };
 const getSingleAcademicDepartment = async (id: string) => {
   const result = await AcademicDepartment.findById(id);
@@ -17,7 +17,7 @@ const updateAcademicDepartment = async (
   departmentID: string,
   payload: Partial<TacademicDepartment>,
 ) => {
-  const result = await AcademicDepartment.findByIdAndUpdate(
+  const result = await AcademicDepartment.findOneAndUpdate(
     { _id: departmentID },
     payload,
     { new: true },
