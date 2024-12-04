@@ -17,7 +17,7 @@ const createStudentIntoDB = async (password: string, payload: TStudent) => {
   if (!admissionSemester) {
     throw new Error('Adimission semester not found');
   }
-  userData.id = await generateStudentId(admissionSemester);
+  userData.id = await generateStudentId(admissionSemester)
   const newUser = await User.create(userData);
   if (Object.keys(newUser).length) {
     payload.id = newUser.id;
