@@ -43,6 +43,7 @@ const createStudentIntoDB = async (password: string, payload: TStudent) => {
       
       return newStudent;
     // return newUser;
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   } catch (error) {
     await session.abortTransaction();
     await session.endSession();
