@@ -8,6 +8,7 @@ import { Student } from '../student/student.model';
 import { TUser } from './user.interface';
 import { User } from './user.model';
 import { generateStudentId } from './user.utils';
+import { StatusCodes } from 'http-status-codes';
 
 const createStudentIntoDB = async (password: string, payload: TStudent) => {
   const userData: Partial<TUser> = {};
@@ -17,36 +18,40 @@ const createStudentIntoDB = async (password: string, payload: TStudent) => {
     payload.admissionSemester,
   );
   // session Create
-  const session = await mongoose.startSession()
+  const session = await mongoose.startSession();
   try {
-    // 
-    session.startTransaction()
-    if(!admissionSemester){
-      throw new AppError(404,'Not found')
+    //
+    session.startTransaction();
+    if (!admissionSemester) {
+      throw new AppError(StatusCodes.BAD_REQUEST, 'Not found');
     }
     userData.id = await generateStudentId(admissionSemester);
     // session  apply-1
-    const newUser = await User.create([userData],{session});
-    if ( !newUser.length) {
-      throw new AppError(404, 'Failed to Create User')
+    const newUser = await User.create([userData], { session });
+    if (!newUser.length) {
+      throw new AppError(StatusCodes.BAD_REQUEST, 'Failed to Create User');
     }
-      payload.id = newUser[0].id;
-      payload.user = newUser[0]._id; //Reference id
-    
-      // session apply-2
-      const newStudent = await Student.create([payload],{session});
-      if(!newStudent.length){
-        throw new AppError(404, 'New Student Create Failed')
-      }
-      await session.commitTransaction()
-      await session.endSession()
-      
-      return newStudent;
+    payload.id = newUser[0].id;
+    payload.user = newUser[0]._id; //Reference id
+
+    // session apply-2
+    const newStudent = await Student.create([payload], { session });
+    if (!newStudent.length) {
+      throw new AppError(StatusCodes.BAD_REQUEST, 'New Student Create Failed');
+    }
+    await session.commitTransaction();
+    await session.endSession();
+
+    return newStudent;
     // return newUser;
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
   } catch (error) {
     await session.abortTransaction();
     await session.endSession();
+    throw new AppError(
+      StatusCodes.BAD_REQUEST,
+      'Not Successful created student',
+    );
   }
 };
 export const UserService = {
