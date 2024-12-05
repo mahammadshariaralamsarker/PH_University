@@ -3,7 +3,7 @@ import mongoose from 'mongoose';
 import { Student } from './student.model';
 import AppError from '../../Errors/AppErrors';
 import { User } from '../user/user.model';
-import { TStudent } from './student.interface';
+import { TStudent } from './student.interface'; 
 
 const getAllStudentsFromDB = async () => {
   const result = await Student.find()
@@ -31,7 +31,28 @@ const getSingleStudentFromDB = async (id: string) => {
   return result;
 };
 const updateStudentIntoDB = async (id: string,payload:Partial<TStudent>) => {  
-  const result = await Student.findOneAndUpdate({id},payload ,{new:true})
+
+  const {name , guardian, localGuardian, ...remainingStudentData} = payload;
+  const modifiedData :Record<string,unknown> = {...remainingStudentData};
+  
+  if(name && Object.keys(name).length){
+    for(const [key, value] of Object.entries(name)){
+      modifiedData[`name.${key}`]= value
+    }
+  }
+  if(guardian && Object.keys(guardian).length){
+    for(const [key, value] of Object.entries(guardian)){
+      modifiedData[`guardian.${key}`]= value
+    }
+  }
+  if(localGuardian && Object.keys(localGuardian).length){
+    for(const [key, value] of Object.entries(localGuardian)){
+      modifiedData[`localGuardian.${key}`]= value
+    }
+  }
+
+
+  const result = await Student.findOneAndUpdate({id},modifiedData ,{new:true,runValidators:true})
   return result;
 };
 

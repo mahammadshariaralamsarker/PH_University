@@ -20,12 +20,26 @@ const guardianValidationSchema = z.object({
   motherOccupation: z.string(),
   motherContactNo: z.string(),
 });
+const guardianValidationSchemaforUpdate = z.object({
+  fatherName: z.string().optional(),
+  fatherOccupation: z.string().optional(),
+  fatherContactNo: z.string().optional(),
+  motherName: z.string().optional(),
+  motherOccupation: z.string().optional(),
+  motherContactNo: z.string().optional(),
+});
 
 const localGuardianValidationSchema = z.object({
   name: z.string(),
   occupation: z.string(),
   contactNo: z.string(),
   address: z.string(),
+});
+const localGuardianValidationSchemaforUpdate = z.object({
+  name: z.string().optional(),
+  occupation: z.string().optional(),
+  contactNo: z.string().optional(),
+  address: z.string().optional(),
 });
 
 export const CreateStudentValidationSchema = z.object({
@@ -74,8 +88,8 @@ export const UpdateStudentValidationSchema = z.object({
         .optional(),
       presentAddress: z.string().optional(),
       permanentAddress: z.string().optional(),
-      guardian: guardianValidationSchema.optional(),
-      localGuardian: localGuardianValidationSchema.optional(),
+      guardian: guardianValidationSchemaforUpdate.optional(),
+      localGuardian: localGuardianValidationSchemaforUpdate.optional(),
       profileImg: z.string().optional(),
       admissionSemester: z.string().optional(),
     }),
