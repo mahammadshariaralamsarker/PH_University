@@ -6,6 +6,7 @@ import {
   TStudent,
   TUserName,
 } from './student.interface';
+import AppError from '../../Errors/AppErrors';
 
 const userNameSchema = new Schema<TUserName>({
   firstName: {
@@ -177,5 +178,9 @@ studentSchema.statics.isUserExists = async function (id: string) {
   const existingUser = await Student.findOne({ id });
   return existingUser;
 };
-
+studentSchema.statics.isUserExists= async function (id:string){
+  const existingUser = await Student.findOneAndUpdate({ id }); 
+  throw new AppError(404, 'user not exists')
+  return existingUser;
+}
 export const Student = model<TStudent, StudentModel>('Student', studentSchema);
