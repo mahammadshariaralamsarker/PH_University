@@ -1,7 +1,9 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import mongoose from 'mongoose';
 import { Student } from './student.model';
 import AppError from '../../Errors/AppErrors';
 import { User } from '../user/user.model';
+import { TStudent } from './student.interface';
 
 const getAllStudentsFromDB = async () => {
   const result = await Student.find()
@@ -26,6 +28,10 @@ const getSingleStudentFromDB = async (id: string) => {
         path: 'academicFaculty',
       },
     });
+  return result;
+};
+const updateStudentIntoDB = async (id: string,payload:Partial<TStudent>) => {  
+  const result = await Student.findOneAndUpdate({id},payload ,{new:true})
   return result;
 };
 
@@ -64,4 +70,5 @@ export const StudentServices = {
   getAllStudentsFromDB,
   getSingleStudentFromDB,
   deleteStudentFromDB,
+  updateStudentIntoDB
 };
