@@ -4,12 +4,11 @@
 import { ErrorRequestHandler } from 'express';
 import { ZodError } from 'zod';
 import config from '../config';
-// import { TErrorSource } from '../interface/error';
+import { handleZodError } from '../Errors/handleZodError';
+import {   TErrorSources } from '../interface/error';
+import { handleMongooseValidationError } from '../Errors/handleMongooseValidationError';
 
-type TErrorSource = {
-  path:string|number
-  message:string
-}[]
+
 
 export const globalErrorHandler: ErrorRequestHandler = (
   err,
@@ -20,30 +19,21 @@ export const globalErrorHandler: ErrorRequestHandler = (
   // setting getting values
   let statusCode = err.statusCode || 500;
   let message = err.message || 'Something went wrong!';
-  let errorSources:TErrorSource = [{
+  let errorSources:TErrorSources  = [{
     path:'',
     message:'Error Sources message'
   }]
 
-  const handleZodError =(err:ZodError)=>{
-    const errorSources:TErrorSource= err.issues.map((issue:ZodError)=>{
-      return{
-        path:issue?.path[issue.path.length-1],
-        message:issue.message
-      }
-    })
-    return {
-      statusCode,
-      message:'Validation Error',
-      errorSources
-    }
-  }
-
-
   if(err instanceof ZodError){
     const simplifiedError = handleZodError(err)
-    statusCode = simplifiedError?.statusCode;
+    statusCode = simplifiedError?.StatusCodes;
     message = simplifiedError?.message;
+    errorSources = simplifiedError?.errorSources
+  }  
+  else if(err?.name === 'ValidationError')  {
+    const simplifiedError = handleMongooseValidationError(err)
+    statusCode = simplifiedError?.statusCode
+    message= simplifiedError?.message
     errorSources = simplifiedError?.errorSources
   }
 
@@ -52,6 +42,7 @@ export const globalErrorHandler: ErrorRequestHandler = (
     status: false,
     message,
     errorSources,
-    stack:config.Node_Env ==='development'?err?.stack:null
+    stack:config.Node_Env ==='development'?err?.stack:null,
+    // err
   });
 };

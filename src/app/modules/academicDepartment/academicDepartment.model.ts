@@ -6,6 +6,7 @@ const academicDepartmentSchema = new Schema<TacademicDepartment>(
   {
     name: {
       type: String,
+      required:true
     },
     academicFaculty: {
       type: Schema.Types.ObjectId,
@@ -28,15 +29,15 @@ academicDepartmentSchema.pre('findOneAndUpdate', async function (next) {
   }
   next();
 });
-academicDepartmentSchema.pre('save', async function (next) {
-  const isDepartmentExist = await AcademicDepartment.findOne({
-    name: this.name,
-  });
-  if (isDepartmentExist) {
-    throw new AppError(StatusCodes.BAD_REQUEST, 'The Department Already Exist');
-  }
-  next();
-});
+// academicDepartmentSchema.pre('save', async function (next) {
+//   const isDepartmentExist = await AcademicDepartment.findOne({
+//     name: this.name,
+//   });
+//   if (isDepartmentExist) {
+//     throw new AppError(StatusCodes.BAD_REQUEST, 'The Department Already Exist');
+//   }
+//   next();
+// });
 
 export const AcademicDepartment = model<TacademicDepartment>(
   'academicDepartment',
