@@ -7,6 +7,8 @@ import config from '../config';
 import { handleZodError } from '../Errors/handleZodError';
 import {   TErrorSources } from '../interface/error';
 import { handleMongooseValidationError } from '../Errors/handleMongooseValidationError';
+import { handleCastValidationError } from '../Errors/handleCastError';
+
 
 
 
@@ -26,12 +28,17 @@ export const globalErrorHandler: ErrorRequestHandler = (
 
   if(err instanceof ZodError){
     const simplifiedError = handleZodError(err)
-    statusCode = simplifiedError?.StatusCodes;
+    statusCode = simplifiedError?.statusCode;
     message = simplifiedError?.message;
     errorSources = simplifiedError?.errorSources
   }  
   else if(err?.name === 'ValidationError')  {
     const simplifiedError = handleMongooseValidationError(err)
+    statusCode = simplifiedError?.statusCode
+    message= simplifiedError?.message
+    errorSources = simplifiedError?.errorSources
+  }else if(err.name==="CastError"){
+    const simplifiedError = handleCastValidationError(err)
     statusCode = simplifiedError?.statusCode
     message= simplifiedError?.message
     errorSources = simplifiedError?.errorSources
@@ -42,7 +49,7 @@ export const globalErrorHandler: ErrorRequestHandler = (
     status: false,
     message,
     errorSources,
-    stack:config.Node_Env ==='development'?err?.stack:null,
+    // stack:config.Node_Env ==='development'?err?.stack:null,
     // err
   });
 };
