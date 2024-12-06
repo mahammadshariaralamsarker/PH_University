@@ -8,6 +8,7 @@ import { handleZodError } from '../Errors/handleZodError';
 import {   TErrorSources } from '../interface/error';
 import { handleMongooseValidationError } from '../Errors/handleMongooseValidationError';
 import { handleCastValidationError } from '../Errors/handleCastError';
+import { handleDuplicateID } from '../Errors/handleDuplicateID';
 
 
 
@@ -42,7 +43,9 @@ export const globalErrorHandler: ErrorRequestHandler = (
     statusCode = simplifiedError?.statusCode
     message= simplifiedError?.message
     errorSources = simplifiedError?.errorSources
-  }
+  }/* else if(err?.code ===11000){
+    const simplifiedError = handleDuplicateID(err)
+  } */
 
 // ultimate Return
   return res.status(statusCode).json({
@@ -50,6 +53,6 @@ export const globalErrorHandler: ErrorRequestHandler = (
     message,
     errorSources,
     // stack:config.Node_Env ==='development'?err?.stack:null,
-    // err
+    err
   });
 };
