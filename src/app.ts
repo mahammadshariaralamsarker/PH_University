@@ -14,6 +14,7 @@ app.use(cors());
 app.use('/api/v1', router);
 
 const getAController = (req: Request, res: Response) => {
+  // Promise.reject();
   const a = 10;
   res.send(a);
 };
