@@ -6,8 +6,18 @@ import { User } from '../user/user.model';
 import { TStudent } from './student.interface';
 import { StatusCodes } from 'http-status-codes';
 
-const getAllStudentsFromDB = async () => {
-  const result = await Student.find()
+const getAllStudentsFromDB = async (query:Record<string,unknown>) => {
+  // {email:{$regex:query.searchTerm, $options:i}}
+  console.log(query);
+  let searchTerm =''
+  if(query?.searchTerm){
+    searchTerm = query.searchTerm as string
+  }
+  const result = await Student.find({
+    $or:['name.firstName','name.middleName','name.lastName','email','presentAddress'].map((fields)=>({
+      [fields]:{$regex:searchTerm, $options:'i'}
+    }))
+  })
     .populate('admissionDepartment')
     .populate('admissionSemester')
     .populate({
