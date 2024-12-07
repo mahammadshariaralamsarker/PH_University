@@ -82,6 +82,7 @@ const deleteStudentFromDB = async (id: string) => {
     await session.endSession();
 
     return deletedStudent;
+  // eslint-disable-next-line no-unused-vars
   } catch (error) {
     await session.abortTransaction();
     await session.endSession();
