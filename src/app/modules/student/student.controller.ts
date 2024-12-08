@@ -14,7 +14,7 @@ const getAllStudents = catchAsync(async (req, res) => {
   });
 });
 const getSingleStudent = catchAsync(async (req, res) => {
-  const {  Id } = req.params;
+  const { Id } = req.params;
   const result = await StudentServices.getSingleStudentFromDB(Id);
   sendResponse(res, {
     success: true,
@@ -24,7 +24,7 @@ const getSingleStudent = catchAsync(async (req, res) => {
   });
 });
 const deleteStudent: RequestHandler = catchAsync(async (req, res) => {
-  const {Id} = req.params;
+  const { Id } = req.params;
   const result = await StudentServices.deleteStudentFromDB(Id);
   sendResponse(res, {
     success: true,

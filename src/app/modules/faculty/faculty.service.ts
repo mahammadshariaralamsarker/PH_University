@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import httpStatus from 'http-status-codes';
-import mongoose from 'mongoose'; 
-import { User } from '../user/user.model'; 
+import mongoose from 'mongoose';
+import { User } from '../user/user.model';
 import { TFaculty } from './faculty.interface';
 import { Faculty } from './faculty.model';
 import QueryBuilder from '../../Builder/QueryBuilder';

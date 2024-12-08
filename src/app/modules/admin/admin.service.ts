@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import httpStatus from 'http-status-codes';
-import mongoose from 'mongoose'; 
+import mongoose from 'mongoose';
 import { User } from '../user/user.model';
 import { AdminSearchableFields } from './admin.constant';
 import { TAdmin } from './admin.interface';

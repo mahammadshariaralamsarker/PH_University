@@ -6,7 +6,11 @@ import { TStudent } from '../student/student.interface';
 import { Student } from '../student/student.model';
 import { TUser } from './user.interface';
 import { User } from './user.model';
-import { generateAdminId, generateFacultyId, generateStudentId } from './user.utils';
+import {
+  generateAdminId,
+  generateFacultyId,
+  generateStudentId,
+} from './user.utils';
 import { StatusCodes } from 'http-status-codes';
 import { TFaculty } from '../faculty/faculty.interface';
 import { AcademicDepartment } from '../academicDepartment/academicDepartment.model';
@@ -105,7 +109,7 @@ const createFacultyIntoDB = async (password: string, payload: TFaculty) => {
     await session.endSession();
 
     return newFaculty;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (err: any) {
     await session.abortTransaction();
     await session.endSession();
@@ -131,7 +135,7 @@ const createAdminIntoDB = async (password: string, payload: TFaculty) => {
     userData.id = await generateAdminId();
 
     // create a user (transaction-1)
-    const newUser = await User.create([userData], { session }); 
+    const newUser = await User.create([userData], { session });
 
     //create a admin
     if (!newUser.length) {
@@ -152,7 +156,7 @@ const createAdminIntoDB = async (password: string, payload: TFaculty) => {
     await session.endSession();
 
     return newAdmin;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (err: any) {
     await session.abortTransaction();
     await session.endSession();
@@ -161,5 +165,7 @@ const createAdminIntoDB = async (password: string, payload: TFaculty) => {
 };
 
 export const UserService = {
-  createStudentIntoDB,createAdminIntoDB,createFacultyIntoDB
+  createStudentIntoDB,
+  createAdminIntoDB,
+  createFacultyIntoDB,
 };

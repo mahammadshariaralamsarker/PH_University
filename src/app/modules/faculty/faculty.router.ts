@@ -1,4 +1,4 @@
-import express from 'express'; 
+import express from 'express';
 import { FacultyControllers } from './faculty.controller';
 import { updateFacultyValidationSchema } from './faculty.validation';
 import { validateRequest } from '../../middleWare/validateRequest';

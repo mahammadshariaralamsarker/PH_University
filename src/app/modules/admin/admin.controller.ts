@@ -1,4 +1,4 @@
-import httpStatus from 'http-status-codes';  
+import httpStatus from 'http-status-codes';
 import { catchAsync } from '../../utils/CatchAsync';
 import { sendResponse } from '../../utils/sendResponse';
 import { AdminServices } from './admin.service';

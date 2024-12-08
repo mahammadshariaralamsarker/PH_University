@@ -38,5 +38,7 @@ const createAdmin = catchAsync(async (req, res) => {
   });
 });
 export const UserControllers = {
-  createStudent,createAdmin,createFaculty
+  createStudent,
+  createAdmin,
+  createFaculty,
 };

@@ -1,5 +1,5 @@
-import express from 'express'; 
-import { AdminControllers } from './admin.controller'; 
+import express from 'express';
+import { AdminControllers } from './admin.controller';
 import { validateRequest } from '../../middleWare/validateRequest';
 import { updateAdminValidationSchema } from './admin.validation';
 

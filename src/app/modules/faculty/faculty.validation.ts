@@ -1,4 +1,4 @@
-import { z } from 'zod'; 
+import { z } from 'zod';
 import { BloodGroup, Gender } from './faculty.constant';
 
 const createUserNameValidationSchema = z.object({

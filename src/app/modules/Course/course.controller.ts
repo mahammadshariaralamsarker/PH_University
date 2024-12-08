@@ -1,12 +1,10 @@
 import { StatusCodes } from 'http-status-codes';
 import { catchAsync } from '../../utils/CatchAsync';
 import { CourseServices } from './course.service';
-import { sendResponse } from '../../utils/sendResponse'; 
+import { sendResponse } from '../../utils/sendResponse';
 
 const createCourse = catchAsync(async (req, res) => {
-  const result = await CourseServices.createCourseIntoDB(
-    req.body,
-  );
+  const result = await CourseServices.createCourseIntoDB(req.body);
   sendResponse(res, {
     statusCode: StatusCodes.OK,
     success: true,
@@ -26,7 +24,7 @@ const getAllCourses = catchAsync(async (req, res) => {
 
 const getSingleCourse = catchAsync(async (req, res) => {
   const { id } = req.params;
-  const result =await CourseServices.getSingleCoursesFromDB(id);
+  const result = await CourseServices.getSingleCoursesFromDB(id);
   sendResponse(res, {
     statusCode: StatusCodes.OK,
     success: true,
@@ -36,7 +34,7 @@ const getSingleCourse = catchAsync(async (req, res) => {
 });
 const deleteCourse = catchAsync(async (req, res) => {
   const { id } = req.params;
-  const result =await CourseServices.deleteCourseFromDB(id);
+  const result = await CourseServices.deleteCourseFromDB(id);
   sendResponse(res, {
     statusCode: StatusCodes.OK,
     success: true,
@@ -62,5 +60,6 @@ const deleteCourse = catchAsync(async (req, res) => {
 export const CourseControllers = {
   createCourse,
   getAllCourses,
-  getSingleCourse,deleteCourse
+  getSingleCourse,
+  deleteCourse,
 };
