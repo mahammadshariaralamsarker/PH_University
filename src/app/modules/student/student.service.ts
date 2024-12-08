@@ -5,63 +5,81 @@ import AppError from '../../Errors/AppErrors';
 import { User } from '../user/user.model';
 import { TStudent } from './student.interface';
 import { StatusCodes } from 'http-status-codes';
+import QueryBuilder from '../../Builder/QueryBuilder';
+import { StudentSearchAbleFields } from './student.constant';
 
 const getAllStudentsFromDB = async (query:Record<string,unknown>) => { 
-  const queryObject = {...query} //copy
+  // const queryObject = {...query} //copy
   
-  const excludeFields = ['searchTerm','sort','limit','page','fields']
-  excludeFields.forEach((element)=>{
-    delete queryObject[element]
-  }) 
-  const StudentSearchAbleFields = ['name.firstName','name.middleName','name.lastName','email','presentAddress',]
-  let searchTerm =''
-  if(query?.searchTerm){
-    searchTerm = query.searchTerm as string
-  } 
-  const searchQuery = Student.find({
-    $or:StudentSearchAbleFields.map((field)=>({
-      [field]:{$regex:searchTerm,$options:'i'}
-    }))
-  })
-  const filterQuery =  searchQuery.find(queryObject)
-    .populate('admissionDepartment')
-    .populate('admissionSemester')
-    .populate({
-      path: 'admissionDepartment',
-      populate: {
-        path: 'academicFaculty',
-      },
-    });
-    let sort = '-createdAt'
-    if(query.sort){
-      sort = query.sort as string
-    } 
-    const sortQuery =  filterQuery.sort(sort) 
-    const page = 1
-    let limit = 1
-    let skip =0
-    if(query.limit){
-      limit = query.limit as number
-    } 
-    if(query.page){
-      limit = query.limit as number
-      skip = (page-1)*limit
-    } 
+  // const excludeFields = ['searchTerm','sort','limit','page','fields']
+  // excludeFields.forEach((element)=>{
+  //   delete queryObject[element]
+  // }) 
+  // const StudentSearchAbleFields = ['name.firstName','name.middleName','name.lastName','email','presentAddress',]
+  // let searchTerm =''
+  // if(query?.searchTerm){
+  //   searchTerm = query.searchTerm as string
+  // } 
+  // const searchQuery = Student.find({
+  //   $or:StudentSearchAbleFields.map((field)=>({
+  //     [field]:{$regex:searchTerm,$options:'i'}
+  //   }))
+  // })
+  // const filterQuery =  searchQuery.find(queryObject)
+  //   .populate('admissionDepartment')
+  //   .populate('admissionSemester')
+  //   .populate({
+  //     path: 'admissionDepartment',
+  //     populate: {
+  //       path: 'academicFaculty',
+  //     },
+  //   });
+  //   let sort = '-createdAt'
+  //   if(query.sort){
+  //     sort = query.sort as string
+  //   } 
+  //   const sortQuery =  filterQuery.sort(sort) 
+  //   const page = 1
+  //   let limit = 1
+  //   let skip =0
+  //   if(query.limit){
+  //     limit = query.limit as number
+  //   } 
+  //   if(query.page){
+  //     limit = query.limit as number
+  //     skip = (page-1)*limit
+  //   } 
     
-    const paginateQuery = sortQuery.skip(skip)
-    const limitQuery = paginateQuery.limit(limit)
+  //   const paginateQuery = sortQuery.skip(skip)
+  //   const limitQuery = paginateQuery.limit(limit)
     
     
-    // Field Limiting 
-    let fields = ''
-    if(query.fields){
-      fields = (query.fields as string).split(',').join(' ')
-      console.log({fields});
-    }
-    const fieldQuery = await limitQuery.select(fields)
-    console.log(query , queryObject);
+  //   // Field Limiting 
+  //   let fields = ''
+  //   if(query.fields){
+  //     fields = (query.fields as string).split(',').join(' ')
+  //     console.log({fields});
+  //   }
+  //   const fieldQuery = await limitQuery.select(fields)
+  //   console.log(query , queryObject);
 
-  return fieldQuery;
+  // return fieldQuery;
+
+  const studentQuery = new QueryBuilder(Student.find()
+  .populate('admissionSemester')
+  .populate({
+        path: 'admissionDepartment',
+        populate: {
+          path: 'academicFaculty',
+        },
+      }),query)
+  .search(StudentSearchAbleFields)
+  .filter()
+  .sort()
+  .paginate()
+  .fields();
+  const  result = await studentQuery.modelQuery
+  return result
 };
 
 const getSingleStudentFromDB = async (id: string) => {
