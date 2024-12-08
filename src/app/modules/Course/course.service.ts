@@ -19,7 +19,7 @@ const getAllCoursesFromDB = async (payload: Record<string,unknown>) =>{
   return result
 }
 const getSingleCoursesFromDB = async (id:string) =>{
-  const result =await Course.findById(id)
+  const result =await Course.findById(id).populate('preRequisiteCourses.course')
   return result
 }
 const deleteCourseFromDB = async (id:string,  ) =>{
