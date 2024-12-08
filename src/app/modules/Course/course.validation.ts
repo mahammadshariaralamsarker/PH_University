@@ -15,6 +15,9 @@ const createCourseValidationSchema = z.object({
     isDeleted: z.boolean().optional(),
   }),
 });
+const updateCourseValidationSchema = createCourseValidationSchema.partial();
+
 export const CourseValidation = {
   createCourseValidationSchema,
+  updateCourseValidationSchema,
 };

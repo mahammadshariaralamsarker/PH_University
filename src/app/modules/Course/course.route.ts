@@ -10,12 +10,12 @@ router.post(
   CourseControllers.createCourse,
 );
 
-// router.patch('/:id',
-//   validateRequest(
-//     AcademicFacultyValidation.UpdateacademicFacultyValidationSchema,
-//   ),
-//   academicFacultyController.getUpdatedAcademicFaculty,
-// );
+router.patch('/:id',
+  validateRequest(
+    CourseValidation.updateCourseValidationSchema,
+  ),
+  CourseControllers.UpdatedCourse,
+);
 
 router.get('/:id', CourseControllers.getSingleCourse);
 router.delete('/:id', CourseControllers.deleteCourse);
