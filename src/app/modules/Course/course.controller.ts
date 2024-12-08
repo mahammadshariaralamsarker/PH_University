@@ -1,11 +1,9 @@
 import { StatusCodes } from 'http-status-codes';
 import { catchAsync } from '../../utils/CatchAsync';
 import { CourseServices } from './course.service';
-import { sendResponse } from '../../utils/sendResponse';
-// import { sendResponse } from '../../utils/sendResponse';
-// import { academicFacultyServices } from './academicFaculty.service';
+import { sendResponse } from '../../utils/sendResponse'; 
 
-const createCourseFaculty = catchAsync(async (req, res) => {
+const createCourse = catchAsync(async (req, res) => {
   const result = await CourseServices.createCourseIntoDB(
     req.body,
   );
@@ -17,7 +15,7 @@ const createCourseFaculty = catchAsync(async (req, res) => {
   });
 });
 const getAllCourses = catchAsync(async (req, res) => {
-  const result = await CourseServices.getAllCoursesFromDB();
+  const result = await CourseServices.getAllCoursesFromDB(req.query);
   sendResponse(res, {
     statusCode: StatusCodes.OK,
     success: true,
@@ -61,8 +59,8 @@ const deleteCourse = catchAsync(async (req, res) => {
 //   });
 // });
 
-export const academicFacultyController = {
-  createCourseFaculty,
+export const CourseControllers = {
+  createCourse,
   getAllCourses,
   getSingleCourse,deleteCourse
 };
