@@ -9,11 +9,11 @@ import { StatusCodes } from 'http-status-codes';
 const getAllStudentsFromDB = async (query:Record<string,unknown>) => { 
   const queryObject = {...query} //copy
   
-  const excludeFields = ['searchTerm','sort','limit']
+  const excludeFields = ['searchTerm','sort','limit','page','fields']
   excludeFields.forEach((element)=>{
     delete queryObject[element]
   }) 
-  const StudentSearchAbleFields = ['name.firstName','name.middleName','name.lastName','email','presentAddress']
+  const StudentSearchAbleFields = ['name.firstName','name.middleName','name.lastName','email','presentAddress',]
   let searchTerm =''
   if(query?.searchTerm){
     searchTerm = query.searchTerm as string
@@ -37,14 +37,31 @@ const getAllStudentsFromDB = async (query:Record<string,unknown>) => {
       sort = query.sort as string
     } 
     const sortQuery =  filterQuery.sort(sort) 
-    
-    let limit = 1;
+    const page = 1
+    let limit = 1
+    let skip =0
     if(query.limit){
       limit = query.limit as number
     } 
-    const limitQuery = await sortQuery.limit(limit)
+    if(query.page){
+      limit = query.limit as number
+      skip = (page-1)*limit
+    } 
+    
+    const paginateQuery = sortQuery.skip(skip)
+    const limitQuery = paginateQuery.limit(limit)
+    
+    
+    // Field Limiting 
+    let fields = ''
+    if(query.fields){
+      fields = (query.fields as string).split(',').join(' ')
+      console.log({fields});
+    }
+    const fieldQuery = await limitQuery.select(fields)
+    console.log(query , queryObject);
 
-  return limitQuery;
+  return fieldQuery;
 };
 
 const getSingleStudentFromDB = async (id: string) => {
