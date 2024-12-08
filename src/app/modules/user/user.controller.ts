@@ -2,8 +2,9 @@ import { UserService } from './user.service';
 import { sendResponse } from '../../utils/sendResponse';
 import { catchAsync } from '../../utils/CatchAsync';
 import { StatusCodes } from 'http-status-codes';
+
 const createStudent = catchAsync(async (req, res) => {
-  const { password, student: studentData } = req.body;
+  const { password, studentData } = req.body;
   const result = await UserService.createStudentIntoDB(password, studentData);
   sendResponse(res, {
     success: true,
@@ -12,6 +13,7 @@ const createStudent = catchAsync(async (req, res) => {
     data: result,
   });
 });
+
 export const UserControllers = {
   createStudent,
 };

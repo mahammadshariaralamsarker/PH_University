@@ -6,7 +6,7 @@ const academicDepartmentSchema = new Schema<TacademicDepartment>(
   {
     name: {
       type: String,
-      required:true
+      required: true,
     },
     academicFaculty: {
       type: Schema.Types.ObjectId,

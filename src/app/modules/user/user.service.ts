@@ -1,7 +1,6 @@
 import mongoose from 'mongoose';
 import config from '../../config';
 import AppError from '../../Errors/AppErrors';
-// import { TAcademicSemester } from '../academicSemester/academicSemester.interface';
 import { AcademicSemester } from '../academicSemester/academicSemester.model';
 import { TStudent } from '../student/student.interface';
 import { Student } from '../student/student.model';
@@ -37,14 +36,13 @@ const createStudentIntoDB = async (password: string, payload: TStudent) => {
     // session apply-2
     const newStudent = await Student.create([payload], { session });
     if (!newStudent.length) {
-      throw new AppError(StatusCodes.BAD_REQUEST, 'New Student Create Failed');
+      throw new AppError(StatusCodes.BAD_REQUEST, 'New Student Created Failed');
     }
     await session.commitTransaction();
     await session.endSession();
 
     return newStudent;
-    // return newUser;
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
   } catch (error) {
     await session.abortTransaction();
     await session.endSession();
