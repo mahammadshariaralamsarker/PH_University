@@ -33,10 +33,18 @@ const deleteCourseFromDB = async (id: string) => {
   );
   return result;
 };
+const updateCourseFromDB = async (id: string,payload:Record<TCourse>) => {
+  const result = await Course.findByIdAndUpdate(
+    id,
+    { isDeleted: true },
+    { new: true },
+  );
+  return result;
+};
 
 export const CourseServices = {
   createCourseIntoDB,
   getAllCoursesFromDB,
   getSingleCoursesFromDB,
-  deleteCourseFromDB,
+  deleteCourseFromDB,updateCourseFromDB
 };
