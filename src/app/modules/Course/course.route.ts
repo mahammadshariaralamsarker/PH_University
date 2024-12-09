@@ -9,6 +9,8 @@ router.post(
   validateRequest(CourseValidation.createCourseValidationSchema),
   CourseControllers.createCourse,
 );
+router.put('/:courseId/assign-faculties',validateRequest(CourseValidation.assignFacultiesWithCourseValidationSchema),CourseControllers.asignFacultiesWithCourse)
+
 
 router.patch('/:id',
   validateRequest(

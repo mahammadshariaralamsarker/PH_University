@@ -5,6 +5,7 @@ import httpStatus from 'http-status-codes';
 
 const getSingleFaculty = catchAsync(async (req, res) => {
   const { id } = req.params;
+  console.log(id);
   const result = await FacultyServices.getSingleFacultyFromDB(id);
 
   sendResponse(res, {
@@ -16,8 +17,7 @@ const getSingleFaculty = catchAsync(async (req, res) => {
 });
 
 const getAllFaculties = catchAsync(async (req, res) => {
-  const result = await FacultyServices.getAllFacultiesFromDB(req.query);
-
+  const result = await FacultyServices.getAllFacultiesFromDB(req.query); 
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,

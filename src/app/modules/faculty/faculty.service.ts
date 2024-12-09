@@ -19,13 +19,12 @@ const getAllFacultiesFromDB = async (query: Record<string, unknown>) => {
     .paginate()
     .fields();
 
-  const result = await facultyQuery.modelQuery;
+  const result = await facultyQuery.modelQuery; 
   return result;
 };
 
 const getSingleFacultyFromDB = async (id: string) => {
   const result = await Faculty.findById(id).populate('academicDepartment');
-
   return result;
 };
 
