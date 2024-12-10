@@ -9,17 +9,21 @@ router.post(
   validateRequest(CourseValidation.createCourseValidationSchema),
   CourseControllers.createCourse,
 );
-router.put('/:courseId/assign-faculties',validateRequest(CourseValidation.facultiesWithCourseValidationSchema),CourseControllers.asignFacultiesWithCourse)
+router.put(
+  '/:courseId/assign-faculties',
+  validateRequest(CourseValidation.facultiesWithCourseValidationSchema),
+  CourseControllers.asignFacultiesWithCourse,
+);
 
+router.delete(
+  '/:courseId/remove-faculties',
+  validateRequest(CourseValidation.facultiesWithCourseValidationSchema),
+  CourseControllers.removeFacultiesWithCourse,
+);
 
-router.delete('/:courseId/remove-faculties',validateRequest(CourseValidation.facultiesWithCourseValidationSchema),CourseControllers.removeFacultiesWithCourse)
-
-
-
-router.patch('/:id',
-  validateRequest(
-    CourseValidation.updateCourseValidationSchema,
-  ),
+router.patch(
+  '/:id',
+  validateRequest(CourseValidation.updateCourseValidationSchema),
   CourseControllers.UpdatedCourse,
 );
 
