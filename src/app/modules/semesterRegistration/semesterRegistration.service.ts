@@ -64,17 +64,20 @@ const getSingleSemesterRegistrationFromDB = async (id: string) => {
 const updateSemesterRegistrationIntoDB = async (id: string, payload:Partial<TsemesterRegistration>) => {
 
   // if the requested semester is exist
-  const isSemesterRegistrationExists = await SemesterRegistration.findById(id);
+  const isSemesterRegistrationExists = await SemesterRegistration.findById(id); 
   if (!isSemesterRegistrationExists) {
     throw new AppError(httpStatus.CONFLICT, 'There is no Semester in the database');
   }
   const currentSemesterStatus = isSemesterRegistrationExists?.status
+  const requestedSemesterStatus = payload?.status 
   // if the requsted Semester status is ended we cannot the update this semister 
    if(currentSemesterStatus ==='ENDED'){
-    throw new AppError(httpStatus.BAD_REQUEST,`The Semester Already ${currentSemesterStatus}`)
+    throw new AppError(httpStatus.BAD_REQUEST,`The Semester Already {currentSemesterStatus`)
    }
     
-
+   if(currentSemesterStatus ==='UPCOMING' && requestedSemesterStatus ==='ENDED'){
+    throw new AppError(httpStatus.BAD_REQUEST, `You cannot Directly change status form ${currentSemesterStatus} to ${requestedSemesterStatus}`);
+   }
 
 };
 
