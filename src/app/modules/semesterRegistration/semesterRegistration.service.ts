@@ -46,7 +46,7 @@ const getAllSemesterRegistrationFromDB = async (
   query: Record<string, unknown>,
 ) => {
   const semesterRegistrationQuery = new QueryBuilder(
-    SemesterRegistration.find().populate('academicSemester'),
+    SemesterRegistration.find()/* .populate('academicSemester') */,
     query,
   )
     .filter()
@@ -61,9 +61,21 @@ const getSingleSemesterRegistrationFromDB = async (id: string) => {
   const result = await SemesterRegistration.findById(id);
   return result;
 };
-const updateSemesterRegistrationIntoDB = async (id: string) => {
-  const result = id;
-  return result;
+const updateSemesterRegistrationIntoDB = async (id: string, payload:Partial<TsemesterRegistration>) => {
+
+  // if the requested semester is exist
+  const isSemesterRegistrationExists = await SemesterRegistration.findById(id);
+  if (!isSemesterRegistrationExists) {
+    throw new AppError(httpStatus.CONFLICT, 'There is no Semester in the database');
+  }
+  const currentSemesterStatus = isSemesterRegistrationExists?.status
+  // if the requsted Semester status is ended we cannot the update this semister 
+   if(currentSemesterStatus ==='ENDED'){
+    throw new AppError(httpStatus.BAD_REQUEST,`The Semester Already ${currentSemesterStatus}`)
+   }
+    
+
+
 };
 
 export const SemesterRegistrationService = {
