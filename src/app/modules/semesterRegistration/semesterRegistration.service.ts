@@ -5,6 +5,7 @@ import { TsemesterRegistration } from './semesterRegistration.interface';
 import { AcademicSemester } from '../academicSemester/academicSemester.model';
 import { SemesterRegistration } from './semesterRegistration.model';
 import QueryBuilder from '../../Builder/QueryBuilder';
+import { RegistrationStatus } from './semesterRegistration.constant';
 
 const createServiceRegistrationIntoDB = async (
   payload: TsemesterRegistration,
@@ -71,14 +72,18 @@ const updateSemesterRegistrationIntoDB = async (id: string, payload:Partial<Tsem
   const currentSemesterStatus = isSemesterRegistrationExists?.status
   const requestedSemesterStatus = payload?.status 
   // if the requsted Semester status is ended we cannot the update this semister 
-   if(currentSemesterStatus ==='ENDED'){
-    throw new AppError(httpStatus.BAD_REQUEST,`The Semester Already {currentSemesterStatus`)
+   if(currentSemesterStatus ===RegistrationStatus.ENDED){
+    throw new AppError(httpStatus.BAD_REQUEST,`The Semester Already ${currentSemesterStatus}`)
    }
     
-   if(currentSemesterStatus ==='UPCOMING' && requestedSemesterStatus ==='ENDED'){
+   if(currentSemesterStatus ===RegistrationStatus.ONGOING && requestedSemesterStatus ===RegistrationStatus.UPCOMING){
     throw new AppError(httpStatus.BAD_REQUEST, `You cannot Directly change status form ${currentSemesterStatus} to ${requestedSemesterStatus}`);
    }
-
+   const result = await SemesterRegistration.findByIdAndUpdate(id,payload,{
+    new:true,
+    runValidators:true
+   })
+   return result
 };
 
 export const SemesterRegistrationService = {
