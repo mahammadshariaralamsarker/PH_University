@@ -6,9 +6,13 @@ const router = express.Router()
 
 
 
+router.patch('/:id',validateRequest(SemesterRegistrationValidations.updatesemesterRegistrationValidationSchema),SemesterRegistrationController.updateSemesterRegistration)
+
+
 router.post('/create-semester-registration',validateRequest(SemesterRegistrationValidations.createsemesterRegistrationValidationSchema),SemesterRegistrationController.createsemesterRegistration)
 
 router.get('/:id',SemesterRegistrationController.getSinglesemesterRegistration)
+
 router.get('/',SemesterRegistrationController.getAllsemesterRegistration)
 
 export const SemesterRegistrationRoute = router;
