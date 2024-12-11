@@ -1,5 +1,6 @@
 import mongoose, { Schema } from "mongoose";
 import { TOfferedCourse } from "./offeredCourse.interface";
+import { Days } from "./offeredCourse.constant";
 
 const offeredCourseSchema = new mongoose.Schema<TOfferedCourse>(
   {
@@ -39,7 +40,17 @@ const offeredCourseSchema = new mongoose.Schema<TOfferedCourse>(
     days:{
       type:String,
       enum:Days
+    },
+    startTime:{
+      type:String,
+      required:true
+    },
+    endTime:{
+      type:String,
+      required:true
     }
-
+  },
+  {
+    timestamps:true
   }
 )
