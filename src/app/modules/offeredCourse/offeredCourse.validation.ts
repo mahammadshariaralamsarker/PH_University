@@ -18,4 +18,6 @@ body :z.object({
 })
 })
 
-export const 
+export const offeredCourseValidation = {
+  createOfferedCourseValidation
+}
