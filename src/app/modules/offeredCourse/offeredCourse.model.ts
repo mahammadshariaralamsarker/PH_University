@@ -54,3 +54,8 @@ const offeredCourseSchema = new mongoose.Schema<TOfferedCourse>(
     timestamps:true
   }
 )
+
+export const OfferedCourse = mongoose.model<TOfferedCourse>(
+  'offeredCourse',
+  offeredCourseSchema,
+);
