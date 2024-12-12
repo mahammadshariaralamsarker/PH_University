@@ -7,11 +7,12 @@ const offeredCourseSchema = new mongoose.Schema<TOfferedCourse>(
     semesterRegistration:{
       type:Schema.Types.ObjectId,
       required:true,
-      ref:'SemesterRegistration'
+      ref:'SemesterRegistration',
+      
     },
     academicSemester:{
       type:Schema.Types.ObjectId,
-      required:true,
+      
       ref:'AcademicSemester'
     },
     academicFaculty:{
@@ -37,10 +38,10 @@ const offeredCourseSchema = new mongoose.Schema<TOfferedCourse>(
       type:Number,
       required:true
     },
-    days:{
+    days:[{
       type:String,
       enum:Days
-    },
+    }],
     startTime:{
       type:String,
       required:true
