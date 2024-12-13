@@ -12,14 +12,30 @@ const createOfferedCourseValidation = z.object({
     maxCapacity: z.number(),
     section: z.number(),
     days: z.array(z.enum([...Days] as [string, ...string[]])),
-    startTime: z.string(),
-    endTime: z.string(),
+    startTime: z.string().refine(
+      (time) => {
+        const regex = /^([01]?[0-9]|2[0-3]):([0-5][0-9])$/;
+        return regex.test(time);
+      },
+      {
+        message: 'Invalid Time Format , Expect "HH:MM" in 24 Hours format',
+      },
+    ),
+    endTime: z.string().refine(
+      (time) => {
+        const regex = /^([01]?[0-9]|2[0-3]):([0-5][0-9])$/;
+        return regex.test(time);
+      },
+      {
+        message: 'Invalid Time Format , Expect "HH:MM" in 24 Hours format',
+      },
+    ),
   }),
 });
 const updateOfferedCourseValidation = z.object({
-  body: z.object({ 
+  body: z.object({
     faculty: z.string().optional(),
-    maxCapacity: z.number().optional(), 
+    maxCapacity: z.number().optional(),
     days: z.enum([...Days] as [string, ...string[]]).optional(),
     startTime: z.string().optional(),
     endTime: z.string().optional(),
@@ -27,5 +43,6 @@ const updateOfferedCourseValidation = z.object({
 });
 
 export const offeredCourseValidation = {
-  createOfferedCourseValidation,updateOfferedCourseValidation
+  createOfferedCourseValidation,
+  updateOfferedCourseValidation,
 };
