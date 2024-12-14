@@ -8,52 +8,101 @@ import { TOfferedCourse } from './offeredCourse.interface';
 import { OfferedCourse } from './offeredCourse.model';
 import httpstatus from 'http-status-codes';
 const createOfferedCourseIntoDB = async (payload: TOfferedCourse) => {
-  const { semesterRegistration,section, academicFaculty, academicDepartment, course,faculty } =
-    payload;
-  
-    const isSemesterRegistrationExits =await SemesterRegistration.findById(semesterRegistration);
-    if (!isSemesterRegistrationExits) {
-      throw new AppError(httpstatus.NOT_FOUND, 'Semester Registration Not Found!');
-    }
-  const academicSemester = isSemesterRegistrationExits.academicSemester
-    const isacademicFacultyExits =await AcademicFaculty.findById(academicFaculty);
+  const {
+    days,
+    startTime,
+    endTime,
+    semesterRegistration,
+    section,
+    academicFaculty,
+    academicDepartment,
+    course,
+    faculty,
+  } = payload;
+
+  const isSemesterRegistrationExits =
+    await SemesterRegistration.findById(semesterRegistration);
+  if (!isSemesterRegistrationExits) {
+    throw new AppError(
+      httpstatus.NOT_FOUND,
+      'Semester Registration Not Found!',
+    );
+  }
+  const academicSemester = isSemesterRegistrationExits.academicSemester;
+  const isacademicFacultyExits =
+    await AcademicFaculty.findById(academicFaculty);
   if (!isacademicFacultyExits) {
     throw new AppError(httpstatus.NOT_FOUND, 'Academic Faculty Not Found!');
   }
 
-  const isacademicDepartmentExits =await AcademicDepartment.findById(academicDepartment);
+  const isacademicDepartmentExits =
+    await AcademicDepartment.findById(academicDepartment);
   if (!isacademicDepartmentExits) {
     throw new AppError(httpstatus.NOT_FOUND, 'Academic Department Not Found!');
   }
-  const isCourseExits =await Course.findById(course);
+  const isCourseExits = await Course.findById(course);
   if (!isCourseExits) {
     throw new AppError(httpstatus.NOT_FOUND, 'Course  Not Found!');
   }
 
-  const isFacultyExits =await Faculty.findById(faculty);
+  const isFacultyExits = await Faculty.findById(faculty);
   if (!isFacultyExits) {
     throw new AppError(httpstatus.NOT_FOUND, 'Faculty  Not Found!');
   }
 
-  // check if the the department is belong to the faculty 
-  const isDepartmentBelongToFaculty= await AcademicDepartment.findOne({_id:academicDepartment,
-    academicFaculty})
+  // check if the the department is belong to the faculty
+  const isDepartmentBelongToFaculty = await AcademicDepartment.findOne({
+    _id: academicDepartment,
+    academicFaculty,
+  });
   if (!isDepartmentBelongToFaculty) {
-    throw new AppError(httpstatus.BAD_REQUEST, `This ${isacademicDepartmentExits.name} is not belong to ${isacademicFacultyExits.name}`);
+    throw new AppError(
+      httpstatus.BAD_REQUEST,
+      `This ${isacademicDepartmentExits.name} is not belong to ${isacademicFacultyExits.name}`,
+    );
   }
   // check if the same course same section in same registered semester exists
-  const isSameOfferedCourseExistWtihSameRegisteredSemesterWithSameSection = await OfferedCourse.findOne({
-    semesterRegistration,section,course
-  })
+  const isSameOfferedCourseExistWtihSameRegisteredSemesterWithSameSection =
+    await OfferedCourse.findOne({
+      semesterRegistration,
+      section,
+      course,
+    });
   if (isSameOfferedCourseExistWtihSameRegisteredSemesterWithSameSection) {
-    throw new AppError(httpstatus.BAD_REQUEST, `Offered Course with Same Section already exists`);
+    throw new AppError(
+      httpstatus.BAD_REQUEST,
+      `Offered Course with Same Section already exists`,
+    );
   }
-   
+  //  get the schedule of the faculty
+  const assignSchedules = await OfferedCourse.find({
+    semesterRegistration,
+    faculty,
+  }).select('days startTime endTime');
+  console.log(assignSchedules);
+
+  const newScheduls = {
+    days: { $in: days },
+    startTime,
+    endTime,
+  };
+  assignSchedules.forEach((schedule) => {
+    const existingStartTime = new Date(`1979-01-02T${schedule.startTime}`)
+    const existingEndTime = new Date(`1979-01-02T${schedule.endTime}`)
+    const newStartTime = new Date(`1979-01-02T${schedule.startTime}`)
+    const newEndTime = new Date(`1979-01-02T${schedule.endTime}`)
 
 
-  
-  const result = await OfferedCourse.create({...payload,academicSemester});
-  return result;
+    if(newStartTime <existingEndTime && newEndTime> existingEndTime){
+      throw new AppError(
+        httpstatus.CONFLICT,
+        `This faculty isn't available at this time choose other time or date `,
+      );
+    }
+  });
+
+  const result = await OfferedCourse.create({ ...payload, academicSemester });
+  return result; 
 };
 
 export const OfferedCourseService = {
