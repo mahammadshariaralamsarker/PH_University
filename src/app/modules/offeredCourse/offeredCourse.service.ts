@@ -41,7 +41,7 @@ const createOfferedCourseIntoDB = async (payload: TOfferedCourse) => {
   if (!isDepartmentBelongToFaculty) {
     throw new AppError(httpstatus.BAD_REQUEST, `This ${isacademicDepartmentExits.name} is not belong to ${isacademicFacultyExits.name}`);
   }
-  // check if the same course same sectio in same registered semester exists
+  // check if the same course same section in same registered semester exists
   const isSameOfferedCourseExistWtihSameRegisteredSemesterWithSameSection = await OfferedCourse.findOne({
     semesterRegistration,section,course
   })
