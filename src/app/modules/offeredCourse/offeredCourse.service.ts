@@ -48,6 +48,10 @@ const createOfferedCourseIntoDB = async (payload: TOfferedCourse) => {
   if (isSameOfferedCourseExistWtihSameRegisteredSemesterWithSameSection) {
     throw new AppError(httpstatus.BAD_REQUEST, `Offered Course with Same Section already exists`);
   }
+   
+
+
+  
   const result = await OfferedCourse.create({...payload,academicSemester});
   return result;
 };
