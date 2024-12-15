@@ -7,8 +7,8 @@ export const hasTimeConflict = (
   for(const schedule of assingSchedules){
     const existingStartTime = new Date(`1979-01-02T${schedule.startTime}`);
     const existingEndTime = new Date(`1979-01-02T${schedule.endTime}`);
-    const newStartTime = new Date(`1979-01-02T${schedule.startTime}`);
-    const newEndTime = new Date(`1979-01-02T${schedule.endTime}`);
+    const newStartTime = new Date(`1979-01-02T${newSchedule.startTime}`);
+    const newEndTime = new Date(`1979-01-02T${newSchedule.endTime}`);
 
     if (newStartTime < existingEndTime && newEndTime >existingStartTime ) { 
       return true;

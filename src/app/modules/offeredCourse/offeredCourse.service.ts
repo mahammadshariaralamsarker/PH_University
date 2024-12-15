@@ -79,22 +79,23 @@ const createOfferedCourseIntoDB = async (payload: TOfferedCourse) => {
   const assignSchedules = await OfferedCourse.find({
     semesterRegistration,
     faculty,
-  }).select('days startTime endTime'); 
+    days: { $in: days },
+  }).select('days startTime endTime');
 
   const newSchedule = {
-    days: { $in: days },
+    days,
     startTime,
     endTime,
   };
-  if(hasTimeConflict(assignSchedules,newSchedule)){
+  if (hasTimeConflict(assignSchedules, newSchedule)) {
     throw new AppError(
       httpstatus.BAD_REQUEST,
       `The Faculty is not available ata that time! Choose other time or day !`,
     );
-  };
+  }
 
   const result = await OfferedCourse.create({ ...payload, academicSemester });
-  return result;  
+  return result;
 };
 
 export const OfferedCourseService = {
