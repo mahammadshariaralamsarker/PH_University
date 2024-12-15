@@ -4,6 +4,17 @@ import { sendResponse } from "../../utils/sendResponse";
 import httpstatus from 'http-status-codes'
 import { OfferedCourseService } from "./offeredCourse.service";
 
+const getSingleOfferedCourse = catchAsync(async (req, res) => {
+  const { id } = req.params; 
+  const result = await OfferedCourseService.getSingleOfferedCourseFromDB(id);
+
+  sendResponse(res, {
+    statusCode: httpstatus.OK,
+    success: true,
+    message: 'Offered Course is retrieved successfully',
+    data: result,
+  });
+});
 const createOfferedCourse = catchAsync(async(req:Request,res:Response)=>{
   const result = await OfferedCourseService.createOfferedCourseIntoDB(req.body)
   sendResponse(res, {
@@ -23,7 +34,17 @@ const updateOfferedCourse = catchAsync(async(req:Request,res:Response)=>{
     data:result
   })
 })
+const getAllOfferedCourseFromDB = catchAsync(async(req:Request,res:Response)=>{
+ 
+  const result = await OfferedCourseService.getAllOfferedCourseFromDB()
+  sendResponse(res, {
+    statusCode:httpstatus.OK,
+    success:true,
+    message:'All Offered Course is Here Successfully',
+    data:result
+  })
+})
 
 export  const OfferedCourseController ={
-  createOfferedCourse,updateOfferedCourse
+  createOfferedCourse,updateOfferedCourse,getSingleOfferedCourse,getAllOfferedCourseFromDB
 }

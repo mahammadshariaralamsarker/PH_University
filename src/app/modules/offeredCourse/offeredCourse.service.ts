@@ -140,7 +140,16 @@ const updateOfferedCourseFromDB = async (
   return result;
 };
 
+const getSingleOfferedCourseFromDB = async (id: string) => {
+  const result = await OfferedCourse.findById(id) ;
+  return result;
+}; 
+const getAllOfferedCourseFromDB = async ( ) => {
+  const result = await OfferedCourse.find() ;
+  return result;
+}; 
+
 export const OfferedCourseService = {
   createOfferedCourseIntoDB,
-  updateOfferedCourseFromDB,
+  updateOfferedCourseFromDB,getSingleOfferedCourseFromDB,getAllOfferedCourseFromDB
 };

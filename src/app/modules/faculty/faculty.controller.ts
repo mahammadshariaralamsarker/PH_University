@@ -4,8 +4,7 @@ import { FacultyServices } from './faculty.service';
 import httpStatus from 'http-status-codes';
 
 const getSingleFaculty = catchAsync(async (req, res) => {
-  const { id } = req.params;
-  console.log(id);
+  const { id } = req.params; 
   const result = await FacultyServices.getSingleFacultyFromDB(id);
 
   sendResponse(res, {
