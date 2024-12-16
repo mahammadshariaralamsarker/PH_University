@@ -29,7 +29,7 @@ const loginUser = async (payload: TLoginUser) => {
     throw new AppError( httpstatus.FORBIDDEN, 'Password donnot matched Blocked!', );
   
   const jwtPayload = {
-    userId:user ,
+    userId:user.id ,
     role:user.role
   }
   
