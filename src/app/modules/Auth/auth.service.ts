@@ -1,8 +1,7 @@
 import AppError from '../../Errors/AppErrors';
 import { User } from '../user/user.model';
 import { TLoginUser } from './auth.interface';
-import httpstatus from 'http-status-codes';
-import bcrypt from 'bcrypt'
+import httpstatus from 'http-status-codes'; 
 const loginUser = async (payload: TLoginUser) => {
 
 const user = await User.isUserExistsByCustomId(payload.id)
