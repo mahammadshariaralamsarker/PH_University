@@ -20,18 +20,19 @@ import { Admin } from '../admin/admin.model';
 const createStudentIntoDB = async (password: string, payload: TStudent) => {
   const userData: Partial<TUser> = {};
   userData.password = password || (config.default_Password as string);
-  userData.role = 'students';
+  userData.role = 'students'; 
   const admissionSemester = await AcademicSemester.findById(
     payload.admissionSemester,
   );
+  if (!admissionSemester) {
+    throw new AppError(StatusCodes.BAD_REQUEST, 'Not found');
+  }
   // session Create
   const session = await mongoose.startSession();
   try {
     //
     session.startTransaction();
-    if (!admissionSemester) {
-      throw new AppError(StatusCodes.BAD_REQUEST, 'Not found');
-    }
+    
     userData.id = await generateStudentId(admissionSemester);
     // session  apply-1
     const newUser = await User.create([userData], { session });
@@ -40,7 +41,7 @@ const createStudentIntoDB = async (password: string, payload: TStudent) => {
     }
     payload.id = newUser[0].id;
     payload.user = newUser[0]._id; //Reference id
-
+ 
     // session apply-2
     const newStudent = await Student.create([payload], { session });
     if (!newStudent.length) {
